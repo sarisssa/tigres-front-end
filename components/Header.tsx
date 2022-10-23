@@ -1,3 +1,4 @@
+import { ConnectButton } from "./connect-button/ConnectButton";
 import { LinkButton } from "./LinkButton";
 
 export const Header = () => {
@@ -12,7 +13,9 @@ export const Header = () => {
           Derivatives
         </LinkButton>
       </div>
-      <div>{/* <ConnectButton /> */}</div>
+      <div>
+        <ConnectButton />
+      </div>
     </div>
   );
 };
