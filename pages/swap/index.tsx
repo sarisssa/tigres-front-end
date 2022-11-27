@@ -1,12 +1,12 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { SwapContainer } from "../components/swap/SwapContainer";
+import { SwapContainer } from "../../components/swap/SwapContainer";
 
 const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Tigres</title>
+        <title>Tigres - Swap</title>
         <meta name="description" content="Blockchain project" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

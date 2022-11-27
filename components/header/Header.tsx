@@ -1,5 +1,5 @@
+import { LinkButton } from "../dummy/LinkButton";
 import { ConnectButton } from "./connect-button/ConnectButton";
-import { LinkButton } from "./LinkButton";
 
 export const Header = () => {
   return (
@@ -9,8 +9,8 @@ export const Header = () => {
         <LinkButton href="/stake" color="rgb(153, 161, 189)">
           Stake
         </LinkButton>
-        <LinkButton href="/derivatives" color="rgb(153, 161, 189)">
-          Derivatives
+        <LinkButton href="/pool" color="rgb(153, 161, 189)">
+          Pool
         </LinkButton>
       </div>
       <div>

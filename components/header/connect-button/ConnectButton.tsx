@@ -1,5 +1,5 @@
 import { useState } from "react";
-import DownArrow from "../icons/DownArrow";
+import { DownArrow } from "../../icons";
 import { ConnectModal } from "./ConnectModal";
 
 export const ConnectButton = () => {
@@ -16,11 +16,17 @@ export const ConnectButton = () => {
         className={`py-2.5 pr-4 pl-1`}
         onClick={() => setIsModalOpen(!isModalOpen)}
       >
-        <div className={`stroke-button ${isModalOpen ? `rotate-180` : ""}`}>
+        <div className={`text-button ${isModalOpen ? `rotate-180` : ""}`}>
           <DownArrow />
         </div>
       </button>
-      {isModalOpen && <ConnectModal />}
+      {isModalOpen && (
+        <ConnectModal
+          onClose={() => {
+            setIsModalOpen(false);
+          }}
+        />
+      )}
     </div>
   );
 };
