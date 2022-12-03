@@ -1,8 +1,8 @@
 import { ReactElement } from "react";
 
-export type Symbol = "WETH" | "ETH" | "DAI";
+export type TokenSymbol = "WETH" | "ETH" | "DAI";
 
 export interface TokenInfo {
-  symbol: Symbol;
+  symbol: TokenSymbol;
   icon: ReactElement;
 }

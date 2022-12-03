@@ -28,12 +28,14 @@ a {
   box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+@layer utilities {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    @apply appearance-none;
   }
-  body {
-    color: white;
-    background: black;
-  }
+}
+
+.bg-search {
+  background-position: 12px center;
+  background-size: 20px 20px;
 }

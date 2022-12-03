@@ -6,10 +6,16 @@ export const Header = () => {
     <div className="flex justify-between px-5 py-3">
       <div className="flex gap-2">
         <LinkButton href="/swap">Swap</LinkButton>
-        <LinkButton href="/stake" color="rgb(153, 161, 189)">
+        <LinkButton
+          href="/stake"
+          className="!text-tigres-gray !dark:text-dark-tigres-gray"
+        >
           Stake
         </LinkButton>
-        <LinkButton href="/pool" color="rgb(153, 161, 189)">
+        <LinkButton
+          href="/pool"
+          className="!text-tigres-gray !dark:text-dark-tigres-gray"
+        >
           Pool
         </LinkButton>
       </div>
