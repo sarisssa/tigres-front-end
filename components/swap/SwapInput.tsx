@@ -31,7 +31,7 @@ export const SwapInput = ({ defaultSymbol }: ISwapInputProps) => {
   return (
     <div className="flex flex-nowrap p-4 my-0.5 h-24 bg-input-background dark:bg-dark-input-background rounded-xl border border-input-border border-opacity-0 focus-within:!border-opacity-[0.4] hover:border-opacity-[0.08] transition duration-[150ms]">
       <input
-        className="focus:outline-0 bg-transparent h-fit overflow-auto placeholder-tigres-placeholder dark:placeholder-dark-tigres-placeholder text-4xl font-normal text-input-text dark:text-white"
+        className="focus:outline-0 bg-transparent h-fit overflow-auto placeholder-tigres-placeholder dark:placeholder-dark-tigres-placeholder text-4xl font-normal text-tigres-black dark:text-white"
         type="number"
         placeholder="0"
         onKeyDown={(evt) =>
@@ -42,7 +42,7 @@ export const SwapInput = ({ defaultSymbol }: ISwapInputProps) => {
         onClick={() => setIsSelectingToken(true)}
         className={`dark:text-white text-center h-fit py-1.5 pr-1.5 pl-2 mx-auto rounded-2xl font-semibold transition duration-[150ms] ${
           selectedToken
-            ? "bg-swap-row-button dark:bg-dark-swap-row-button hover:bg-swap-row-hover hover:dark:bg-dark-swap-row-hover"
+            ? "bg-tigres-row-button dark:bg-dark-tigres-row-button hover:bg-swap-row-hover hover:dark:bg-dark-swap-row-hover"
             : "dark:bg-dark-button-active bg-button"
         }`}
       >

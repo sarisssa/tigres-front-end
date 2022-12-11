@@ -23,6 +23,9 @@ module.exports = {
             gray: "#99A1BD",
             placeholder: "#5d6887",
             border: "#1b2236",
+            row: {
+              button: "#293249",
+            },
           },
           button: {
             DEFAULT: "#4C82FB",
@@ -38,7 +41,6 @@ module.exports = {
           swap: {
             background: "#0d111a",
             row: {
-              button: "#293249",
               hover: "rgb(52 59 81)",
             },
           },
@@ -70,7 +72,6 @@ module.exports = {
         input: {
           background: "rgb(245, 246, 252)",
           border: "rgb(152, 161, 192)",
-          text: "rgb(13, 17, 28)",
         },
         swap: {
           background: "#ffffff",
@@ -78,7 +79,6 @@ module.exports = {
           focus: "#474C5E",
           row: {
             background: "#131b2a",
-            button: "rgb(232, 236, 251)",
             hover: "rgb(227, 230, 245)",
           },
         },
@@ -86,6 +86,11 @@ module.exports = {
           gray: "#5d6785",
           placeholder: "rgb(152, 161, 192)",
           border: "rgb(210, 217, 238)",
+          row: {
+            button: "rgb(232, 236, 251)",
+          },
+          black: "rgb(13, 17, 28)",
+          grey: "rgb(119, 128, 160)",
         },
       },
     },
