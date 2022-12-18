@@ -7,8 +7,8 @@ export const SwapContainer = () => {
     useState(false);
 
   return (
-    <div className="flex justify-center">
-      <div className="flex flex-col rounded-2xl bg-swap-background dark:bg-dark-swap-background border border-tigres-border dark:border-dark-tigres-border p-2 max-w-[464px] mt-[68px]">
+    <div className="flex justify-center p-2">
+      <div className="flex flex-col rounded-2xl bg-swap-background dark:bg-dark-swap-background border border-tigres-border dark:border-dark-tigres-border p-2 w-full max-w-[464px] sm:mt-[68px]">
         <h3 className="px-3 py-2 text-black dark:text-white">Swap</h3>
         <SwapInput defaultSymbol={"ETH"} />
         <SwapInput />

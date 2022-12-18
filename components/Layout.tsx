@@ -10,8 +10,6 @@ interface LayoutProps {
 export const Layout = ({ children }: LayoutProps) => {
   const { darkMode } = useTigresConfiguration();
 
-  console.log({ darkMode });
-
   return (
     <div
       id="dark-mode-container"
@@ -21,8 +19,8 @@ export const Layout = ({ children }: LayoutProps) => {
         <link rel="preconnect" href="https://rsms.me/" />
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
       </Head>
-      <div className="fixed inset-0 z-[-1] w-[200vw] h-[200vh] -translate-x-[100vw] -translate-y-[100vh] bg-gradient-to-b dark:from-dark-background-top dark:to-dark-background-bottom from-background-top to-background-bottom"></div>
-      <Header></Header>
+      <div className="fixed inset-0 z-[-1] w-[200vw] h-[200vh] -translate-x-[50vw] -translate-y-[80vh] sm:-translate-y-[100vh] bg-gradient-to-b dark:from-dark-background-top dark:to-dark-background-bottom from-background-top to-background-bottom"></div>
+      <Header />
       <main>{children}</main>
     </div>
   );

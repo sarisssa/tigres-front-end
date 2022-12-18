@@ -16,7 +16,10 @@ export const ConnectModal = ({ onClose }: ConnectModalProps) => {
   return (
     <>
       <div className="fixed inset-0" onClick={onClose}></div>
-      <div className="flex flex-col justify-center border border-dark-tigres-gray border-opacity-[14%] bg-modal-background dark:bg-dark-modal-background px-2 py-4 w-80 rounded-xl absolute top-[72px] right-5 shadow-2xl">
+      <div
+        className="flex flex-col justify-center border border-tigres-border dark:border-dark-tigres-border sm:border-opacity-[14%]
+        bg-modal-background dark:bg-dark-modal-background px-2 py-4 sm:w-80 rounded-xl absolute sm:top-[72px] bottom-[60px] sm:bottom-auto left-2 sm:left-auto right-2 sm:right-5 sm:shadow-2xl"
+      >
         <button
           onClick={() =>
             setIsConnectWalletModalShown(!isConnectWalletModalShown)

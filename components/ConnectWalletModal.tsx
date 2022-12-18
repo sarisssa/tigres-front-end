@@ -1,4 +1,6 @@
+import { ethers } from "ethers";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import { Close } from "./icons";
 
 interface IConnectWalletModalProps {
@@ -6,6 +8,44 @@ interface IConnectWalletModalProps {
 }
 
 export function ConnectWalletModal({ onClose }: IConnectWalletModalProps) {
+  const [haveMetamask, setHaveMetaMask] = useState(true);
+  const [accountAddress, setAccountAddress] = useState("");
+  const [accountBalance, setAccountBalance] = useState("");
+  const [isConnected, setIsConnected] = useState(false);
+
+  const { ethereum } = window;
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+  useEffect(() => {
+    const { ethereum } = window;
+    console.log(ethereum);
+    const checkMetamaskAvailability = async () => {
+      if (!ethereum) {
+        setHaveMetaMask(false);
+      }
+      setHaveMetaMask(true);
+    };
+    checkMetamaskAvailability();
+  }, []);
+
+  const connectWallet = async () => {
+    try {
+      if (!ethereum) {
+        setHaveMetaMask(false);
+      }
+      const accounts = await ethereum.request?.({
+        method: "eth_requestAccounts",
+      });
+      let balance = await provider.getBalance(accounts[0]);
+      let bal = ethers.utils.formatEther(balance);
+      setAccountAddress(accounts[0]);
+      setAccountBalance(bal);
+      setIsConnected(true);
+    } catch (error) {
+      setIsConnected(false);
+    }
+  };
+
   return (
     <div
       onClick={onClose}
@@ -22,7 +62,10 @@ export function ConnectWalletModal({ onClose }: IConnectWalletModalProps) {
           </button>
         </div>
         <div className="px-4 pb-4 flex flex-col gap-4">
-          <button className="flex justify-start bg-tigres-row-button p-4 rounded-xl w-full items-center font-semibold text-tigres-black dark:text-white dark:bg-dark-tigres-row-button hover:opacity-60 transition duration-[125ms]">
+          <button
+            onClick={connectWallet}
+            className="flex justify-start bg-tigres-row-button p-4 rounded-xl w-full items-center font-semibold text-tigres-black dark:text-white dark:bg-dark-tigres-row-button hover:opacity-60 transition duration-[125ms]"
+          >
             <div className="pr-3 inline-flex">
               <Image
                 src="/wallet/metamask.png"
@@ -51,12 +94,3 @@ export function ConnectWalletModal({ onClose }: IConnectWalletModalProps) {
     </div>
   );
 }
-
-/**
- * 1. Add state to decide whether the modal should be shown or not
- * 2. Create Modal component
- * 3. Conditionally render the Modal
- * 4. Want a darker background? Add a container with position `fixed` and inset `0` and give it a background with low opacity
- * 5. Add the modal div itself and give it a (max) width. Height will be decided automatically since it grows based on the content
- * 6. Style the modal and fill it with content
- */
