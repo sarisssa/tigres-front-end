@@ -14,16 +14,15 @@ export function ConnectWalletModal({ onClose }: IConnectWalletModalProps) {
   const [isConnected, setIsConnected] = useState(false);
 
   const { ethereum } = window;
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
 
   useEffect(() => {
     const { ethereum } = window;
-    console.log(ethereum);
     const checkMetamaskAvailability = async () => {
       if (!ethereum) {
         setHaveMetaMask(false);
+      } else {
+        setHaveMetaMask(true);
       }
-      setHaveMetaMask(true);
     };
     checkMetamaskAvailability();
   }, []);
@@ -33,11 +32,13 @@ export function ConnectWalletModal({ onClose }: IConnectWalletModalProps) {
       if (!ethereum) {
         setHaveMetaMask(false);
       }
+      const provider = new ethers.providers.Web3Provider(ethereum);
       const accounts = await ethereum.request?.({
         method: "eth_requestAccounts",
       });
       let balance = await provider.getBalance(accounts[0]);
       let bal = ethers.utils.formatEther(balance);
+      console.log("NAME", accounts);
       setAccountAddress(accounts[0]);
       setAccountBalance(bal);
       setIsConnected(true);
@@ -62,20 +63,38 @@ export function ConnectWalletModal({ onClose }: IConnectWalletModalProps) {
           </button>
         </div>
         <div className="px-4 pb-4 flex flex-col gap-4">
-          <button
-            onClick={connectWallet}
-            className="flex justify-start bg-tigres-row-button p-4 rounded-xl w-full items-center font-semibold text-tigres-black dark:text-white dark:bg-dark-tigres-row-button hover:opacity-60 transition duration-[125ms]"
-          >
-            <div className="pr-3 inline-flex">
-              <Image
-                src="/wallet/metamask.png"
-                alt="MetaMask Logo"
-                height={28}
-                width={28}
-              />
-            </div>
-            <span>MetaMask</span>
-          </button>
+          {haveMetamask ? (
+            <button
+              onClick={connectWallet}
+              className="flex justify-start bg-tigres-row-button p-4 rounded-xl w-full items-center font-semibold text-tigres-black dark:text-white dark:bg-dark-tigres-row-button hover:opacity-60 transition duration-[125ms]"
+            >
+              <div className="pr-3 inline-flex">
+                <Image
+                  src="/wallet/metamask.png"
+                  alt="MetaMask Logo"
+                  height={28}
+                  width={28}
+                />
+              </div>
+              <span>MetaMask</span>
+            </button>
+          ) : (
+            <a
+              className="flex justify-start bg-tigres-row-button p-4 rounded-xl w-full items-center font-semibold text-tigres-black dark:text-white dark:bg-dark-tigres-row-button hover:opacity-60 transition duration-[125ms]"
+              href="https://metamask.io/"
+              target="_blank"
+            >
+              <div className="pr-3 inline-flex">
+                <Image
+                  src="/wallet/metamask.png"
+                  alt="MetaMask Logo"
+                  height={28}
+                  width={28}
+                />
+              </div>
+              <span>Install MetaMask</span>
+            </a>
+          )}
           <div className="py-1 px-4 w-full">
             <span className="font-normal text-tigres-grey dark:text-tigres-placeholder">
               By connecting a wallet, you agree to Tigres Labs’{" "}
