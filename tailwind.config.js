@@ -90,7 +90,7 @@ module.exports = {
             button: "rgb(232, 236, 251)",
           },
           black: "rgb(13, 17, 28)",
-          grey: "rgb(119, 128, 160)",
+          info: "rgb(119, 128, 160)",
         },
       },
     },

@@ -1,6 +1,12 @@
 import { ethers } from "ethers";
+import { useAtom } from "jotai";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import {
+  isWalletConnectedAtom,
+  walletAddressAtom,
+  walletBalanceAtom,
+} from "../state/wallet";
 import { Close } from "./icons";
 
 interface IConnectWalletModalProps {
@@ -9,9 +15,11 @@ interface IConnectWalletModalProps {
 
 export function ConnectWalletModal({ onClose }: IConnectWalletModalProps) {
   const [haveMetamask, setHaveMetaMask] = useState(true);
-  const [accountAddress, setAccountAddress] = useState("");
-  const [accountBalance, setAccountBalance] = useState("");
-  const [isConnected, setIsConnected] = useState(false);
+  const [, setWalletAddress] = useAtom(walletAddressAtom);
+  const [, setWalletBalance] = useAtom(walletBalanceAtom);
+  const [isWalletConnected, setIsWalletConnected] = useAtom(
+    isWalletConnectedAtom
+  );
 
   const { ethereum } = window;
 
@@ -38,13 +46,10 @@ export function ConnectWalletModal({ onClose }: IConnectWalletModalProps) {
       });
       let balance = await provider.getBalance(accounts[0]);
       let bal = ethers.utils.formatEther(balance);
-      console.log("NAME", accounts);
-      setAccountAddress(accounts[0]);
-      setAccountBalance(bal);
-      setIsConnected(true);
-    } catch (error) {
-      setIsConnected(false);
-    }
+      setWalletAddress(accounts[0]);
+      setWalletBalance(+bal);
+      setIsWalletConnected(true);
+    } catch (error) {}
   };
 
   return (
@@ -96,7 +101,7 @@ export function ConnectWalletModal({ onClose }: IConnectWalletModalProps) {
             </a>
           )}
           <div className="py-1 px-4 w-full">
-            <span className="font-normal text-tigres-grey dark:text-tigres-placeholder">
+            <span className="font-normal text-tigres-info dark:text-tigres-placeholder">
               By connecting a wallet, you agree to Tigres Labs’{" "}
               <span className="text-button dark:text-dark-button-active hover:opacity-60">
                 Terms of Service
