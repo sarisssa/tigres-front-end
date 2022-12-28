@@ -48,9 +48,10 @@ export const SelectTokenModal = ({
               .filter((token) =>
                 token.symbol.toLowerCase().includes(input.toLowerCase())
               )
-              .map((tokenInfo) => (
+              .map((tokenInfo, idx) => (
                 <TokenPillButton
                   tokenInfo={tokenInfo}
+                  key={idx}
                   onClick={(token) => {
                     onTokenSelect(token);
                     onClose();
