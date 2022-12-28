@@ -22,14 +22,16 @@ const tokens: TokenInfo[] = [
 
 interface ISwapInputProps {
   defaultSymbol?: TokenSymbol;
+  onChangeToken: (token: TokenInfo) => void;
 }
 
 export interface SwapInputRef {
   selectedToken: TokenInfo | undefined;
+  setSelectedToken: (token: TokenInfo | undefined) => void;
 }
 
 export const SwapInput = forwardRef(
-  ({ defaultSymbol }: ISwapInputProps, ref) => {
+  ({ defaultSymbol, onChangeToken }: ISwapInputProps, ref) => {
     const [isSelectingToken, setIsSelectingToken] = useState(false);
     const [selectedToken, setSelectedToken] = useState<TokenInfo | undefined>(
       tokens.find((x) => x.symbol === defaultSymbol)
@@ -49,8 +51,9 @@ export const SwapInput = forwardRef(
       ref,
       () => ({
         selectedToken,
+        setSelectedToken,
       }),
-      [selectedToken]
+      [selectedToken, setSelectedToken]
     );
 
     return (
@@ -107,7 +110,10 @@ export const SwapInput = forwardRef(
         {isSelectingToken && (
           <SelectTokenModal
             onClose={() => setIsSelectingToken(false)}
-            onTokenSelect={setSelectedToken}
+            onTokenSelect={(token) => {
+              setSelectedToken(token);
+              onChangeToken(token);
+            }}
             selectedToken={selectedToken}
             tokens={tokens}
           />
