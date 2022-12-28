@@ -49,6 +49,7 @@ export function ConnectWalletModal({ onClose }: IConnectWalletModalProps) {
       setWalletAddress(accounts[0]);
       setWalletBalance(+bal);
       setIsWalletConnected(true);
+      onClose();
     } catch (error) {}
   };
 
