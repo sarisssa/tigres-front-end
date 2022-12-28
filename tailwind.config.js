@@ -1,3 +1,5 @@
+const { readBuilderProgram } = require("typescript");
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -25,6 +27,9 @@ module.exports = {
             border: "#1b2236",
             row: {
               button: "#293249",
+            },
+            profile: {
+              border: "rgb(54, 63, 87)",
             },
           },
           button: {

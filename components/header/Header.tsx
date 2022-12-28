@@ -1,12 +1,14 @@
+import { useAtom } from "jotai";
+import { isWalletConnectedAtom } from "../../state/wallet";
 import { LinkButton } from "../dummy/LinkButton";
-import { ConnectButton } from "./connect-button/ConnectButton";
+import { ConnectButton } from "./ConnectButton";
+import { ProfileButton } from "./ProfileButton";
 
 export const Header = () => {
+  const [isWalletConnected] = useAtom(isWalletConnectedAtom);
   return (
     <div className="justify-between flex-row-reverse px-5 py-3 flex">
-      <div>
-        <ConnectButton />
-      </div>
+      <div>{isWalletConnected ? <ProfileButton /> : <ConnectButton />}</div>
       <div className="gap-2 hidden sm:flex">
         <LinkButton href="/swap">Swap</LinkButton>
         <LinkButton

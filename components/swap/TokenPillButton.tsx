@@ -25,5 +25,3 @@ export const TokenPillButton = ({
     </button>
   );
 };
-
-["a", "b", "c", "s"].sort();

@@ -1,5 +1,5 @@
 import { useAtom } from "jotai";
-import { forwardRef, useImperativeHandle, useRef, useState } from "react";
+import { forwardRef, useImperativeHandle, useState } from "react";
 import { walletBalanceAtom } from "../../state/wallet";
 import { DownArrow } from "../icons";
 import { SelectTokenModal } from "./SelectTokenModal";
@@ -28,6 +28,7 @@ interface ISwapInputProps {
 export interface SwapInputRef {
   selectedToken: TokenInfo | undefined;
   setSelectedToken: (token: TokenInfo | undefined) => void;
+  value: number;
 }
 
 export const SwapInput = forwardRef(
@@ -36,7 +37,7 @@ export const SwapInput = forwardRef(
     const [selectedToken, setSelectedToken] = useState<TokenInfo | undefined>(
       tokens.find((x) => x.symbol === defaultSymbol)
     );
-    const inputValueRef = useRef<HTMLInputElement>(null!);
+    const [value, setValue] = useState(0);
     const [walletBalance] = useAtom(walletBalanceAtom);
 
     const setToMax = () => {
@@ -44,7 +45,7 @@ export const SwapInput = forwardRef(
         return;
       }
 
-      inputValueRef.current.value = String(walletBalance);
+      setValue(walletBalance);
     };
 
     useImperativeHandle(
@@ -52,8 +53,9 @@ export const SwapInput = forwardRef(
       () => ({
         selectedToken,
         setSelectedToken,
+        value,
       }),
-      [selectedToken, setSelectedToken]
+      [selectedToken, setSelectedToken, value]
     );
 
     return (
@@ -61,11 +63,11 @@ export const SwapInput = forwardRef(
         <input
           className="focus:outline-0 bg-transparent h-fit overflow-auto placeholder-tigres-placeholder dark:placeholder-dark-tigres-placeholder text-4xl font-normal text-tigres-black dark:text-white"
           type="number"
-          ref={inputValueRef}
+          value={value}
           placeholder="0"
           onKeyDown={(evt) => {
             if (["e", "E", "+", "-"].includes(evt.key)) return;
-            inputValueRef.current.value = evt.currentTarget.value;
+            setValue(+evt.currentTarget.value);
           }}
         />
         <div className="flex flex-col text-end flex-shrink-0">

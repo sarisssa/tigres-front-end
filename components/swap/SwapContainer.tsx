@@ -11,6 +11,7 @@ export const SwapContainer = () => {
   const [isWalletConnected] = useAtom(isWalletConnectedAtom);
   const firstInputRef = useRef<SwapInputRef>(null!);
   const secondInputRef = useRef<SwapInputRef>(null!);
+  const [bothTokensSelected, setBothTokensSelected] = useState(false);
 
   function swapInputTokens() {
     const temp = firstInputRef.current?.selectedToken;
@@ -31,6 +32,8 @@ export const SwapContainer = () => {
       swapInputTokens();
     }
   }
+
+  const firstToken = firstInputRef.current?.selectedToken;
 
   return (
     <div className="flex justify-center p-2">
@@ -58,7 +61,15 @@ export const SwapContainer = () => {
           }
           className="text-button dark:text-dark-button bg-button-connect dark:bg-dark-button-connect p-4 w-full disabled:bg-tigres-row-button disabled:text-tigres-info disabled:opacity-50 rounded-xl text-xl font-semibold mt-3"
         >
-          {isWalletConnected ? "Select a token" : "Connect Wallet"}
+          <div>
+            <p>
+              {isWalletConnected
+                ? bothTokensSelected && !firstInputRef.current?.value
+                  ? `Select ${firstToken?.symbol} Amount`
+                  : "Select a token"
+                : "Connect Wallet"}
+            </p>
+          </div>
         </button>
         {isConnectWalletModalShown && (
           <ConnectWalletModal

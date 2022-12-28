@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { ConnectWalletModal } from "../../ConnectWalletModal";
-import { DownArrow } from "../../icons";
-import { ConnectModal } from "./ConnectModal";
+import { ConnectWalletModal } from "../ConnectWalletModal";
+import { DownArrow } from "../icons";
+import { SettingsModal } from "./SettingsModal";
 
 export const ConnectButton = () => {
   const [isConnectWalletModalShown, setIsConnectWalletModalShown] =
@@ -18,19 +18,19 @@ export const ConnectButton = () => {
       </button>
       <div className="bg-button dark:bg-dark-button w-px h-5" />
       <button
-        className={`py-2.5 pr-4 pl-1`}
+        className="py-2.5 pr-4 pl-1"
         onClick={() => setIsExtendedMenuOpen(!isExtendedMenuOpen)}
       >
         <div
           className={`text-button dark:text-dark-button ${
-            isExtendedMenuOpen ? `rotate-180` : ""
+            isExtendedMenuOpen ? "rotate-180" : ""
           }`}
         >
           <DownArrow />
         </div>
       </button>
       {isExtendedMenuOpen && (
-        <ConnectModal
+        <SettingsModal
           onClose={() => {
             setIsExtendedMenuOpen(false);
           }}
