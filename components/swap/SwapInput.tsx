@@ -5,7 +5,7 @@ import { DownArrow } from "../icons";
 import { SelectTokenModal } from "./SelectTokenModal";
 import { TokenInfo, TokenSymbol } from "./types";
 
-const tokens: TokenInfo[] = [
+export const tokens: TokenInfo[] = [
   {
     symbol: "WETH",
     icon: <img src="./tokens/weth.png" />,
@@ -22,22 +22,21 @@ const tokens: TokenInfo[] = [
 
 interface ISwapInputProps {
   defaultSymbol?: TokenSymbol;
-  onChangeToken: (token: TokenInfo) => void;
+  onChangeToken?: (token: TokenInfo) => void;
+  onChangeValue?: (value: number) => void;
 }
 
 export interface SwapInputRef {
-  selectedToken: TokenInfo | undefined;
   setSelectedToken: (token: TokenInfo | undefined) => void;
-  value: number;
 }
 
 export const SwapInput = forwardRef(
-  ({ defaultSymbol, onChangeToken }: ISwapInputProps, ref) => {
+  ({ defaultSymbol, onChangeToken, onChangeValue }: ISwapInputProps, ref) => {
     const [isSelectingToken, setIsSelectingToken] = useState(false);
     const [selectedToken, setSelectedToken] = useState<TokenInfo | undefined>(
       tokens.find((x) => x.symbol === defaultSymbol)
     );
-    const [value, setValue] = useState(0);
+    const [value, setValue] = useState("");
     const [walletBalance] = useAtom(walletBalanceAtom);
 
     const setToMax = () => {
@@ -45,18 +44,10 @@ export const SwapInput = forwardRef(
         return;
       }
 
-      setValue(walletBalance);
+      setValue(String(walletBalance));
     };
 
-    useImperativeHandle(
-      ref,
-      () => ({
-        selectedToken,
-        setSelectedToken,
-        value,
-      }),
-      [selectedToken, setSelectedToken, value]
-    );
+    useImperativeHandle(ref, () => ({ setSelectedToken }), [setSelectedToken]);
 
     return (
       <div className="flex flex-nowrap p-4 my-0.5 h-24 bg-input-background dark:bg-dark-input-background rounded-xl border border-input-border border-opacity-0 focus-within:!border-opacity-[0.4] hover:border-opacity-[0.08] transition duration-[150ms]">
@@ -65,15 +56,16 @@ export const SwapInput = forwardRef(
           type="number"
           value={value}
           placeholder="0"
-          onKeyDown={(evt) => {
-            if (["e", "E", "+", "-"].includes(evt.key)) return;
-            setValue(+evt.currentTarget.value);
+          onChange={(evt) => {
+            const value = evt.target.value.replace(/\D/g, "");
+            setValue(value);
+            onChangeValue?.(+(value ?? 0));
           }}
         />
         <div className="flex flex-col text-end flex-shrink-0">
           <button
             onClick={() => setIsSelectingToken(true)}
-            className={`dark:text-white text-center h-fit py-1 pr-1 pl-2 mx-auto rounded-2xl font-semibold transition duration-[150ms] ${
+            className={`dark:text-white text-center h-fit py-1 pr-1 pl-2 ml-auto rounded-2xl font-semibold transition duration-[150ms] ${
               selectedToken
                 ? "bg-tigres-row-button dark:bg-dark-tigres-row-button hover:bg-swap-row-hover hover:dark:bg-dark-swap-row-hover"
                 : "dark:bg-dark-button-active bg-button"
@@ -114,7 +106,7 @@ export const SwapInput = forwardRef(
             onClose={() => setIsSelectingToken(false)}
             onTokenSelect={(token) => {
               setSelectedToken(token);
-              onChangeToken(token);
+              onChangeToken?.(token);
             }}
             selectedToken={selectedToken}
             tokens={tokens}
