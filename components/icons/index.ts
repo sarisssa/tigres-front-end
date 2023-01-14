@@ -1,3 +1,4 @@
+export * from "./BackArrow";
 export * from "./Close";
 export * from "./Copy";
 export * from "./Disconnect";
@@ -6,4 +7,5 @@ export * from "./Explore";
 export * from "./Moon";
 export * from "./ProfilePlaceholderPicture";
 export * from "./Search";
+export * from "./Spinner";
 export * from "./Sun";
