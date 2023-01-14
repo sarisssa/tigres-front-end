@@ -93,6 +93,7 @@ module.exports = {
           border: "rgb(210, 217, 238)",
           row: {
             button: "rgb(232, 236, 251)",
+            hover: "rgba(173, 188, 255, 0.24)",
           },
           black: "rgb(13, 17, 28)",
           info: "rgb(119, 128, 160)",

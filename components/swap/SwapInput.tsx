@@ -1,4 +1,5 @@
 import { useAtom } from "jotai";
+import Image from "next/image";
 import { forwardRef, useImperativeHandle, useState } from "react";
 import { isWalletConnectedAtom, walletBalanceAtom } from "../../state/wallet";
 import { DownArrow } from "../icons";
@@ -8,15 +9,15 @@ import { TokenInfo, TokenSymbol } from "./types";
 export const tokens: TokenInfo[] = [
   {
     symbol: "WETH",
-    icon: <img src="./tokens/weth.png" />,
+    icon: <Image src="/tokens/weth.png" width={24} height={24} />,
   },
   {
     symbol: "ETH",
-    icon: <img src="./tokens/eth.png" />,
+    icon: <Image src="/tokens/eth.png" width={24} height={24} />,
   },
   {
     symbol: "DAI",
-    icon: <img src="./tokens/dai.png" />,
+    icon: <Image src="/tokens/dai.png" width={24} height={24} />,
   },
 ];
 
@@ -119,3 +120,5 @@ export const SwapInput = forwardRef(
     );
   }
 );
+
+SwapInput.displayName = "SwapInput";

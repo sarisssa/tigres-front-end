@@ -80,7 +80,14 @@ export const SwapContainer = () => {
     }
 
     setButtonStatus(ButtonStatus.swap);
-  }, [firstInputToken, secondInputToken, firstInputValue, walletBalance]);
+  }, [
+    firstInputToken,
+    secondInputToken,
+    firstInputValue,
+    secondInputValue,
+    walletBalance,
+    isWalletConnected,
+  ]);
 
   function getButtonText() {
     switch (buttonStatus) {

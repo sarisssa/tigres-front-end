@@ -89,6 +89,7 @@ export function ConnectWalletModal({ onClose }: IConnectWalletModalProps) {
               className="flex justify-start bg-tigres-row-button p-4 rounded-xl w-full items-center font-semibold text-tigres-black dark:text-white dark:bg-dark-tigres-row-button hover:opacity-60 transition duration-[125ms]"
               href="https://metamask.io/"
               target="_blank"
+              rel="noreferrer"
             >
               <div className="pr-3 inline-flex">
                 <Image
