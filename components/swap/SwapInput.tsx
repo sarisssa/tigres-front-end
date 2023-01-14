@@ -1,6 +1,6 @@
 import { useAtom } from "jotai";
 import { forwardRef, useImperativeHandle, useState } from "react";
-import { walletBalanceAtom } from "../../state/wallet";
+import { isWalletConnectedAtom, walletBalanceAtom } from "../../state/wallet";
 import { DownArrow } from "../icons";
 import { SelectTokenModal } from "./SelectTokenModal";
 import { TokenInfo, TokenSymbol } from "./types";
@@ -38,6 +38,7 @@ export const SwapInput = forwardRef(
     );
     const [value, setValue] = useState("");
     const [walletBalance] = useAtom(walletBalanceAtom);
+    const [isWalletConnected] = useAtom(isWalletConnectedAtom);
 
     const setToMax = () => {
       if (!walletBalance) {
@@ -87,19 +88,21 @@ export const SwapInput = forwardRef(
               <DownArrow />
             </div>
           </button>
-          {selectedToken?.symbol === "ETH" && walletBalance !== undefined && (
-            <div className="flex flex-end pt-2 items-center">
-              <span className="text-tigres-info text-sm font-normal">
-                Balance: {walletBalance && walletBalance.toFixed(3)}
-              </span>
-              <button
-                onClick={setToMax}
-                className="pl-1.5 text-sm text-button dark:text-dark-button font-semibold"
-              >
-                Max
-              </button>
-            </div>
-          )}
+          {selectedToken?.symbol === "ETH" &&
+            walletBalance !== undefined &&
+            isWalletConnected && (
+              <div className="flex flex-end pt-2 items-center">
+                <span className="text-tigres-info text-sm font-normal">
+                  Balance: {walletBalance.toFixed(3)}
+                </span>
+                <button
+                  onClick={setToMax}
+                  className="pl-1.5 text-sm text-button dark:text-dark-button font-semibold"
+                >
+                  Max
+                </button>
+              </div>
+            )}
         </div>
         {isSelectingToken && (
           <SelectTokenModal

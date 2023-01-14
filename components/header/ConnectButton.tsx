@@ -3,10 +3,17 @@ import { ConnectWalletModal } from "../ConnectWalletModal";
 import { DownArrow } from "../icons";
 import { SettingsModal } from "./SettingsModal";
 
-export const ConnectButton = () => {
+interface IConnectButtonProps {
+  isExtendedMenuOpen: boolean;
+  onExtend: (extend: boolean) => void;
+}
+
+export const ConnectButton = ({
+  isExtendedMenuOpen,
+  onExtend,
+}: IConnectButtonProps) => {
   const [isConnectWalletModalShown, setIsConnectWalletModalShown] =
     useState(false);
-  const [isExtendedMenuOpen, setIsExtendedMenuOpen] = useState(false);
 
   return (
     <div className="flex items-center rounded-full bg-button-connect dark:bg-dark-button-connect overflow-hidden">
@@ -19,7 +26,7 @@ export const ConnectButton = () => {
       <div className="bg-button dark:bg-dark-button w-px h-5" />
       <button
         className="py-2.5 pr-4 pl-1"
-        onClick={() => setIsExtendedMenuOpen(!isExtendedMenuOpen)}
+        onClick={() => onExtend(!isExtendedMenuOpen)}
       >
         <div
           className={`text-button dark:text-dark-button ${
@@ -32,7 +39,7 @@ export const ConnectButton = () => {
       {isExtendedMenuOpen && (
         <SettingsModal
           onClose={() => {
-            setIsExtendedMenuOpen(false);
+            onExtend(!isExtendedMenuOpen);
           }}
         />
       )}

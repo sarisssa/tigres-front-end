@@ -7,8 +7,17 @@ import {
   walletBalanceAtom,
 } from "../../state/wallet";
 import { ConnectWalletModal } from "../ConnectWalletModal";
-import { DownArrow, Moon, ProfilePlaceholderPicture, Sun } from "../icons";
+import {
+  Copy,
+  Disconnect,
+  DownArrow,
+  Explore,
+  Moon,
+  ProfilePlaceholderPicture,
+  Sun,
+} from "../icons";
 import { ModalRow } from "./ModalRow";
+import { SettingsModalGroupButton } from "./SettingsModalGroupButton";
 
 interface SettingsModalProps {
   onClose: () => void;
@@ -18,16 +27,47 @@ export const SettingsModal = ({ onClose }: SettingsModalProps) => {
   const [isConnectWalletModalShown, setIsConnectWalletModalShown] =
     useState(false);
   const [walletAddress] = useAtom(walletAddressAtom);
+  const [isWalletConnected, setIsWalletConnected] = useAtom(
+    isWalletConnectedAtom
+  );
   const [walletBalance] = useAtom(walletBalanceAtom);
-  const [isWalletConnected] = useAtom(isWalletConnectedAtom);
+
   const { darkMode, setDarkMode } = useTigresConfiguration();
+  const [recentlyCopied, setRecentlyCopied] = useState(false);
+
+  async function copyAddress() {
+    try {
+      if (!walletAddress) {
+        return;
+      }
+
+      await navigator.clipboard.writeText(walletAddress);
+
+      setTimeout(() => {
+        setRecentlyCopied(false);
+      }, 500);
+
+      setRecentlyCopied(true);
+    } catch (error) {}
+  }
+
+  function viewTransactions() {
+    window.open(
+      `https://goerli.etherscan.io/address/${walletAddress}`,
+      "_blank"
+    );
+  }
+
+  function disconnectWallet() {
+    setIsWalletConnected(false);
+  }
 
   return (
     <>
       <div className="fixed inset-0" onClick={onClose}></div>
       <div
         onClick={(e) => e.stopPropagation()}
-        className="flex flex-col justify-center border border-tigres-border dark:border-dark-tigres-border sm:border-opacity-[14%] 
+        className="flex flex-col justify-center border border-tigres-border dark:text-white  dark:border-dark-tigres-border sm:border-opacity-[14%] 
         bg-modal-background dark:bg-dark-modal-background px-2 py-4 sm:w-80 rounded-xl absolute sm:top-[72px] bottom-[60px] sm:bottom-auto left-2 sm:left-auto right-2 sm:right-5 sm:shadow-2xl"
       >
         {isWalletConnected ? (
@@ -42,8 +82,27 @@ export const SettingsModal = ({ onClose }: SettingsModalProps) => {
                   {walletAddress?.slice(walletAddress.length - 4)}
                 </span>
               </div>
-              <div>Button Group</div>
+              <div className="flex gap-2">
+                <SettingsModalGroupButton
+                  icon={<Copy />}
+                  hoverText={recentlyCopied ? "Copied!" : "Copy"}
+                  onClick={copyAddress}
+                />
+                <SettingsModalGroupButton
+                  icon={<Explore />}
+                  hoverText="Explore"
+                  onClick={viewTransactions}
+                />
+                <SettingsModalGroupButton
+                  icon={<Disconnect />}
+                  hoverText="Disconnect"
+                  onClick={disconnectWallet}
+                />
+              </div>
             </div>
+            <span className="flex justify-center text-4xl mt-6">
+              {walletBalance?.toFixed(2)} görETH
+            </span>
           </div>
         ) : (
           <button
