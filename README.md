@@ -1,4 +1,4 @@
-## Faded
+## Tigres
 
 A DEX with a Uniswap inspired user interface. Currently working on smart contract integration and testing with the NextJS front end. Also planning to add a Liquidity Pool module and potentially support for mock perps.
 
