@@ -1,6 +1,8 @@
 ## Tigres
 
-A DEX with a Uniswap inspired user interface. Currently working on smart contract integration and testing with the NextJS front end. Also planning to add a Liquidity Pool module and potentially support for mock perps.
+A DEX with a Uniswap inspired user interface. Currently working on smart contract integration and testing with the NextJS front end. Also planning to add a Liquidity Pool module and support for mock perps.
+
+Link to smart contract logic: https://github.com/sarisssa/tigres-contracts
 
 ## Demo
 
@@ -23,4 +25,5 @@ npm run dev
 - Solidity
 - Hardhat
 - Ethersjs
+- Jotai
 - Tailwind
