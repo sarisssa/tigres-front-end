@@ -67,7 +67,7 @@ export function ConnectWalletModal({ onClose }: IConnectWalletModalProps) {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="relative flex flex-col font-tigres-black bg-white dark:bg-tigres-black rounded-[20px] w-[50vw] max-w-[420px] max-h-[90vh] bottom-40 border dark:border-dark-input-background"
+        className="relative flex flex-col font-tigres-black bg-white dark:bg-tigres-black rounded-[20px] w-[90vw] max-w-[420px] max-h-[90vh] bottom-40 border dark:border-dark-input-background"
       >
         {isWalletConnecting ? (
           <div className="flex flex-col items-center">

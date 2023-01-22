@@ -26,7 +26,7 @@ export const SelectTokenModal = ({
       >
         <div
           onClick={(e) => e.stopPropagation()}
-          className="flex flex-col border h-[40vh] w-full max-w-[500px] border-dark-tigres-gray border-opacity-[14%] gap-4 bg-modal-background dark:bg-dark-modal-background dark:text-white p-5 rounded-xl shadow-token-modal"
+          className="flex flex-col border h-[40vh] mx-3 sm:mx-0 w-full max-w-[500px] border-dark-tigres-gray border-opacity-[14%] gap-4 bg-modal-background dark:bg-dark-modal-background dark:text-white p-5 rounded-xl shadow-token-modal"
         >
           <div className="flex justify-between">
             <h3>Select a token</h3>
