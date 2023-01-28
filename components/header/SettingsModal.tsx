@@ -68,7 +68,7 @@ export const SettingsModal = ({ onClose }: SettingsModalProps) => {
       <div
         onClick={(e) => e.stopPropagation()}
         className="flex flex-col justify-center border border-tigres-border dark:text-white  dark:border-dark-tigres-border sm:border-opacity-[14%] 
-        bg-modal-background dark:bg-dark-modal-background px-2 py-4 sm:w-80 rounded-xl absolute sm:top-[72px] bottom-[60px] sm:bottom-auto left-2 sm:left-auto right-2 sm:right-5 sm:shadow-2xl"
+        bg-modal-background dark:bg-dark-modal-background z-10 px-2 py-4 sm:w-80 rounded-xl absolute sm:top-[72px] bottom-[60px] sm:bottom-auto left-2 sm:left-auto right-2 sm:right-5 sm:shadow-2xl"
       >
         {isWalletConnected ? (
           <div className="px-4">
