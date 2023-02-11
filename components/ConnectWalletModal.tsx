@@ -1,7 +1,7 @@
-import { ethers } from "ethers";
 import { useAtom } from "jotai";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useConnectWallet } from "../hooks/useConnectWallet";
 import {
   isWalletConnectedAtom,
   walletAddressAtom,
@@ -21,6 +21,7 @@ export function ConnectWalletModal({ onClose }: IConnectWalletModalProps) {
     isWalletConnectedAtom
   );
   const [isWalletConnecting, setIsWalletConnecting] = useState(false);
+  const connectWallet = useConnectWallet();
 
   const { ethereum } = window;
 
@@ -40,22 +41,16 @@ export function ConnectWalletModal({ onClose }: IConnectWalletModalProps) {
     checkMetamaskAvailability();
   }, []);
 
-  const connectWallet = async () => {
+  const handleConnectButton = async () => {
     try {
       if (!ethereum) {
         setHaveMetaMask(false);
       }
       setIsWalletConnecting(true);
-      const provider = new ethers.providers.Web3Provider(ethereum);
-      const accounts = await ethereum.request?.({
-        method: "eth_requestAccounts",
-      });
-      let balance = await provider.getBalance(accounts[0]);
-      let bal = ethers.utils.formatEther(balance);
-      setWalletAddress(accounts[0]);
-      setWalletBalance(+bal);
+
+      await connectWallet();
+
       setIsWalletConnecting(false);
-      setIsWalletConnected(true);
       onClose();
     } catch (error) {}
   };
@@ -101,7 +96,7 @@ export function ConnectWalletModal({ onClose }: IConnectWalletModalProps) {
             <div className="px-4 pb-4 flex flex-col gap-4">
               {haveMetamask ? (
                 <button
-                  onClick={connectWallet}
+                  onClick={handleConnectButton}
                   className="flex justify-start bg-tigres-row-button p-4 rounded-xl w-full items-center font-semibold text-tigres-black dark:text-white dark:bg-dark-tigres-row-button hover:opacity-60 transition duration-[125ms]"
                 >
                   <div className="pr-3 inline-flex">
