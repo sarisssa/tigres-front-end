@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { ReactNode } from "react";
+import { useConnectWalletOnPageLoad } from "../hooks/useConnectWalletOnPageLoad";
 import { useTigresConfiguration } from "../state/tigresContext";
 import { Header } from "./header";
 
@@ -9,6 +10,8 @@ interface LayoutProps {
 
 export const Layout = ({ children }: LayoutProps) => {
   const { darkMode } = useTigresConfiguration();
+
+  useConnectWalletOnPageLoad();
 
   return (
     <div
