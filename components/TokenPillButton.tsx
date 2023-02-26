@@ -1,4 +1,4 @@
-import { TokenInfo } from "./types";
+import { TokenInfo } from "./swap/types";
 
 interface ITokenPillButtonProps {
   tokenInfo: TokenInfo;

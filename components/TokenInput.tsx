@@ -1,10 +1,10 @@
 import { useAtom } from "jotai";
 import Image from "next/image";
 import { forwardRef, useImperativeHandle, useState } from "react";
-import { isWalletConnectedAtom, walletBalanceAtom } from "../../state/wallet";
-import { DownArrow } from "../icons";
-import { SelectTokenModal } from "./SelectTokenModal";
-import { TokenInfo, TokenSymbol } from "./types";
+import { isWalletConnectedAtom, walletBalanceAtom } from "../state/wallet";
+import { DownArrow } from "./icons";
+import { SelectTokenModal } from "./swap/SelectTokenModal";
+import { TokenInfo, TokenSymbol } from "./swap/types";
 
 export const tokens: TokenInfo[] = [
   {
@@ -21,18 +21,18 @@ export const tokens: TokenInfo[] = [
   },
 ];
 
-interface ISwapInputProps {
+interface ITokenInputProps {
   defaultSymbol?: TokenSymbol;
   onChangeToken?: (token: TokenInfo) => void;
   onChangeValue?: (value: number) => void;
 }
 
-export interface SwapInputRef {
+export interface TokenInputRef {
   setSelectedToken: (token: TokenInfo | undefined) => void;
 }
 
-export const SwapInput = forwardRef(
-  ({ defaultSymbol, onChangeToken, onChangeValue }: ISwapInputProps, ref) => {
+export const TokenInput = forwardRef(
+  ({ defaultSymbol, onChangeToken, onChangeValue }: ITokenInputProps, ref) => {
     const [isSelectingToken, setIsSelectingToken] = useState(false);
     const [selectedToken, setSelectedToken] = useState<TokenInfo | undefined>(
       tokens.find((x) => x.symbol === defaultSymbol)
@@ -121,4 +121,4 @@ export const SwapInput = forwardRef(
   }
 );
 
-SwapInput.displayName = "SwapInput";
+TokenInput.displayName = "TokenInput";

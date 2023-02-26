@@ -5,6 +5,7 @@ export * from "./Disconnect";
 export * from "./DownArrow";
 export * from "./Explore";
 export * from "./Moon";
+export * from "./Plus";
 export * from "./ProfilePlaceholderPicture";
 export * from "./Search";
 export * from "./Spinner";

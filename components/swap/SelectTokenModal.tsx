@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Close } from "../icons";
-import { TokenPillButton } from "./TokenPillButton";
+import { TokenPillButton } from "../TokenPillButton";
 import { TokenInfo } from "./types";
 
 interface ISelectTokenModal {

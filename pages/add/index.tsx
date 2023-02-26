@@ -1,5 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
+import AddLiquidityContainer from "../../components/add/AddLiquidityContainer";
 
 const Home: NextPage = () => {
   return (
@@ -9,6 +10,9 @@ const Home: NextPage = () => {
         <meta name="description" content="Blockchain project" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <main>
+        <AddLiquidityContainer />
+      </main>
     </>
   );
 };

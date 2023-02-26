@@ -53,6 +53,9 @@ module.exports = {
           input: {
             background: "rgb(19, 26, 42)",
           },
+          tip: {
+            background: "rgba(21, 61, 111, 0.44)",
+          },
         },
         background: {
           top: "rgba(255, 184, 226, 0.51)",
@@ -75,6 +78,9 @@ module.exports = {
           row: {
             hover: "rgb(245, 246, 252)",
           },
+        },
+        tip: {
+          background: "rgb(253, 234, 241)",
         },
         input: {
           background: "rgb(245, 246, 252)",

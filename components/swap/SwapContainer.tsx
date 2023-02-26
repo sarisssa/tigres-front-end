@@ -1,28 +1,18 @@
-import { useAtom } from "jotai";
-import { useEffect, useRef, useState } from "react";
-import { isWalletConnectedAtom, walletBalanceAtom } from "../../state/wallet";
+import { useRef, useState } from "react";
+import { ConnectWalletButton } from "../ConnectWalletButton";
 import { ConnectWalletModal } from "../ConnectWalletModal";
-import { SwapInput, SwapInputRef, tokens } from "./SwapInput";
+import { TokenInput, TokenInputRef, tokens } from "../TokenInput";
+import { ButtonStatus, ButtonTextMap } from "../types";
 import { TokenInfo } from "./types";
 
 const defaultSymbol = "ETH";
 
-enum ButtonStatus {
-  noWalletConnected = "noWalletConnected",
-  noTokenSelected = "noTokenSelected",
-  noValueSelected = "noValueSelected",
-  insufficientBalance = "insufficientBalance",
-  swap = "swap",
-}
-
 export const SwapContainer = () => {
   const [isConnectWalletModalShown, setIsConnectWalletModalShown] =
     useState(false);
-  const [isWalletConnected] = useAtom(isWalletConnectedAtom);
-  const [walletBalance] = useAtom(walletBalanceAtom);
 
-  const firstInputRef = useRef<SwapInputRef>(null!);
-  const secondInputRef = useRef<SwapInputRef>(null!);
+  const firstInputRef = useRef<TokenInputRef>(null!);
+  const secondInputRef = useRef<TokenInputRef>(null!);
   const [firstInputValue, setFirstInputValue] = useState(0);
   const [secondInputValue, setSecondInputValue] = useState(0);
   const [firstInputToken, setFirstInputToken] = useState<TokenInfo | undefined>(
@@ -32,11 +22,14 @@ export const SwapContainer = () => {
     TokenInfo | undefined
   >(undefined);
 
-  const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(
-    isWalletConnected
-      ? ButtonStatus.noTokenSelected
-      : ButtonStatus.noWalletConnected
-  );
+  const buttonTextMap: Omit<ButtonTextMap, "addLiquidity"> = {
+    [ButtonStatus.noValueSelected]: "Enter an amount",
+    [ButtonStatus.noWalletConnected]: "Connect Wallet",
+    [ButtonStatus.noTokenSelected]: "Select a token",
+    [ButtonStatus.noValueSelected]: "Enter an amount",
+    [ButtonStatus.swap]: "Swap",
+    [ButtonStatus.insufficientBalance]: `Insufficient ${firstInputToken?.symbol} balance`,
+  };
 
   function swapInputTokens() {
     const temp = firstInputToken;
@@ -58,57 +51,11 @@ export const SwapContainer = () => {
     }
   }
 
-  useEffect(() => {
-    if (!isWalletConnected) {
-      setButtonStatus(ButtonStatus.noWalletConnected);
-      return;
-    }
-
-    if (!firstInputToken || !secondInputToken) {
-      setButtonStatus(ButtonStatus.noTokenSelected);
-      return;
-    }
-
-    if (!firstInputValue && !secondInputValue) {
-      setButtonStatus(ButtonStatus.noValueSelected);
-      return;
-    }
-
-    if (!walletBalance || firstInputValue > walletBalance) {
-      setButtonStatus(ButtonStatus.insufficientBalance);
-      return;
-    }
-
-    setButtonStatus(ButtonStatus.swap);
-  }, [
-    firstInputToken,
-    secondInputToken,
-    firstInputValue,
-    secondInputValue,
-    walletBalance,
-    isWalletConnected,
-  ]);
-
-  function getButtonText() {
-    switch (buttonStatus) {
-      case ButtonStatus.noWalletConnected:
-        return "Connect Wallet";
-      case ButtonStatus.noTokenSelected:
-        return "Select a token";
-      case ButtonStatus.noValueSelected:
-        return "Enter an amount";
-      case ButtonStatus.insufficientBalance:
-        return `Insufficient ${firstInputToken?.symbol} balance`;
-      case ButtonStatus.swap:
-        return "Swap";
-    }
-  }
-
   return (
     <div className="flex justify-center p-2">
       <div className="flex flex-col rounded-2xl bg-swap-background dark:bg-dark-swap-background border border-tigres-border dark:border-dark-tigres-border p-2 w-full max-w-[464px] sm:mt-[68px]">
         <h3 className="px-3 py-2 text-black dark:text-white">Swap</h3>
-        <SwapInput
+        <TokenInput
           ref={firstInputRef}
           defaultSymbol={defaultSymbol}
           onChangeToken={(token) => {
@@ -117,7 +64,7 @@ export const SwapContainer = () => {
           }}
           onChangeValue={setFirstInputValue}
         />
-        <SwapInput
+        <TokenInput
           ref={secondInputRef}
           onChangeToken={(token) => {
             swapIfSameAsFirstToken(token);
@@ -125,27 +72,13 @@ export const SwapContainer = () => {
           }}
           onChangeValue={setSecondInputValue}
         />
-        <button
-          onClick={() => {
-            if (!isWalletConnected) {
-              setIsConnectWalletModalShown(!isConnectWalletModalShown);
-            }
-          }}
-          disabled={[
-            ButtonStatus.insufficientBalance,
-            ButtonStatus.noTokenSelected,
-            ButtonStatus.noValueSelected,
-          ].includes(buttonStatus)}
-          className={`${
-            buttonStatus === ButtonStatus.swap
-              ? "connect-wallet-swap"
-              : "connect-wallet-default"
-          } connect-wallet-base`}
-        >
-          <div>
-            <p>{getButtonText()}</p>
-          </div>
-        </button>
+        <ConnectWalletButton
+          firstInputToken={firstInputToken}
+          firstInputValue={firstInputValue}
+          secondInputToken={secondInputToken}
+          secondInputValue={secondInputValue}
+          buttonTextMap={buttonTextMap}
+        />
         {isConnectWalletModalShown && (
           <ConnectWalletModal
             onClose={() => setIsConnectWalletModalShown(false)}
