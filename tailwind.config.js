@@ -36,6 +36,7 @@ module.exports = {
             DEFAULT: "#4C82FB",
             connect: "#4C82FB3D",
             active: "rgb(76, 130, 251)",
+            hover: "rgb(51, 113, 250)",
           },
           modal: {
             background: "#0E111A",
@@ -67,6 +68,7 @@ module.exports = {
           pill: {
             hover: "rgba(184, 192, 220, 0.08)",
           },
+          hover: "rgb(238, 4, 129)",
         },
         modal: {
           background: "#ffffff",

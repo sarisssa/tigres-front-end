@@ -26,12 +26,7 @@ export const Header = () => {
       </div>
       <div className="gap-2 hidden sm:flex">
         <LinkButton href="/swap">Swap</LinkButton>
-        {/* <LinkButton
-          href="/pool"
-          className="!text-tigres-gray !dark:text-dark-tigres-gray"
-        >
-          Pool
-        </LinkButton> */}
+        <LinkButton href="/pool">Pool</LinkButton>
       </div>
       <div className="sm:hidden flex justify-around border-tigres-border dark:bg-tigres-black dark:border-dark-tigres-border border-t-[1px] fixed h-[52px] inset-0 top-auto text-center py-1 px-2">
         <LinkButton href="/swap" className="flex-grow">

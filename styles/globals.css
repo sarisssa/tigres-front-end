@@ -53,3 +53,11 @@ a {
   background-position: 12px center;
   background-size: 20px 20px;
 }
+
+.liquidity-bg-gradient {
+  background: radial-gradient(
+    76.02% 75.41% at 1.84% 0%,
+    rgb(39, 174, 96) 0%,
+    rgb(0, 0, 0) 100%
+  );
+}
