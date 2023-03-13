@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useRef, useState } from "react";
 import { ConnectWalletButton } from "../ConnectWalletButton";
 import { BackArrow, Plus } from "../icons";
+import { TokenInfo } from "../swap/types";
 import TipContainer from "../TipContainer";
 import { TokenInput, TokenInputRef } from "../TokenInput";
 import { ButtonStatus, ButtonTextMap, TokenInputData } from "../types";
@@ -39,27 +40,59 @@ export default function LiquidityContainer() {
     [ButtonStatus.insufficientBalance]: `Insufficient ${firstInputData.token?.symbol} balance`,
   };
 
-  // function swapIfFirstAlreadySelected(token: TokenInfo) {
-  //   if (secondInputToken?.symbol === token.symbol) {
-  //     const temp = firstInputToken;
-  //     setFirstInputToken(secondInputToken);
-  //     firstInputRef.current.setSelectedToken(secondInputToken);
-  //     setSecondInputToken(temp);
-  //     secondInputRef.current.setSelectedToken(temp);
-  //   }
-  // }
+  function swapFirstIfAlreadySelected(token: TokenInfo | undefined) {
+    const temp = firstInputData;
 
-  // function swapIfSecondAlreadySelected(token: TokenInfo) {
-  //   if (firstInputToken?.symbol === token.symbol) {
-  //     swapInputTokens();
-  //   }
-  // }
+    if (secondInputData.token === token) {
+      setFirstInputData(secondInputData);
+      firstInputRef.current.setSelectedToken(secondInputData.token);
+      setSecondInputData(temp);
+      secondInputRef.current.setSelectedToken(temp.token);
+    }
 
-  // function swapIfThirdAlreadySelected(token: TokenInfo) {
-  //   if (firstInputToken?.symbol === token.symbol) {
-  //     swapInputTokens();
-  //   }
-  // }
+    if (thirdInputData.token === token) {
+      setFirstInputData(thirdInputData);
+      firstInputRef.current.setSelectedToken(thirdInputData.token);
+      setThirdInputData(temp);
+      thirdInputRef.current.setSelectedToken(temp.token);
+    }
+  }
+
+  function swapSecondIfAlreadySelected(token: TokenInfo | undefined) {
+    const temp = secondInputData;
+
+    if (firstInputData.token === token) {
+      setSecondInputData(firstInputData);
+      secondInputRef.current.setSelectedToken(firstInputData.token);
+      setFirstInputData(temp);
+      firstInputRef.current.setSelectedToken(temp.token);
+    }
+
+    if (thirdInputData.token === token) {
+      setSecondInputData(thirdInputData);
+      secondInputRef.current.setSelectedToken(thirdInputData.token);
+      setThirdInputData(temp);
+      thirdInputRef.current.setSelectedToken(temp.token);
+    }
+  }
+
+  function swapThirdIfAlreadySelected(token: TokenInfo | undefined) {
+    const temp = thirdInputData;
+
+    if (secondInputData.token === token) {
+      setThirdInputData(secondInputData);
+      thirdInputRef.current.setSelectedToken(secondInputData.token);
+      setSecondInputData(temp);
+      secondInputRef.current.setSelectedToken(temp.token);
+    }
+
+    if (firstInputData.token === token) {
+      setThirdInputData(firstInputData);
+      thirdInputRef.current.setSelectedToken(firstInputData.token);
+      setFirstInputData(temp);
+      firstInputRef.current.setSelectedToken(temp.token);
+    }
+  }
 
   return (
     <div className="flex justify-center p-2">
@@ -80,8 +113,8 @@ export default function LiquidityContainer() {
           <TokenInput
             ref={firstInputRef}
             onChangeData={(data) => {
+              swapFirstIfAlreadySelected(data.token);
               setFirstInputData(data);
-              // swapIfAlreadySelected(token, firstInputRef);
             }}
           />
           <div className="self-center">
@@ -90,6 +123,7 @@ export default function LiquidityContainer() {
           <TokenInput
             ref={secondInputRef}
             onChangeData={(data) => {
+              swapSecondIfAlreadySelected(data.token);
               setSecondInputData(data);
             }}
           />
@@ -99,6 +133,7 @@ export default function LiquidityContainer() {
           <TokenInput
             ref={thirdInputRef}
             onChangeData={(data) => {
+              swapThirdIfAlreadySelected(data.token);
               setThirdInputData(data);
             }}
           />
