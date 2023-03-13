@@ -5,6 +5,7 @@ import { isWalletConnectedAtom, walletBalanceAtom } from "../state/wallet";
 import { DownArrow } from "./icons";
 import { SelectTokenModal } from "./swap/SelectTokenModal";
 import { TokenInfo, TokenSymbol } from "./swap/types";
+import { TokenInputData } from "./types";
 
 export const tokens: TokenInfo[] = [
   {
@@ -23,8 +24,7 @@ export const tokens: TokenInfo[] = [
 
 interface ITokenInputProps {
   defaultSymbol?: TokenSymbol;
-  onChangeToken?: (token: TokenInfo) => void;
-  onChangeValue?: (value: number) => void;
+  onChangeData?: (data: TokenInputData) => void;
 }
 
 export interface TokenInputRef {
@@ -32,7 +32,7 @@ export interface TokenInputRef {
 }
 
 export const TokenInput = forwardRef(
-  ({ defaultSymbol, onChangeToken, onChangeValue }: ITokenInputProps, ref) => {
+  ({ defaultSymbol, onChangeData }: ITokenInputProps, ref) => {
     const [isSelectingToken, setIsSelectingToken] = useState(false);
     const [selectedToken, setSelectedToken] = useState<TokenInfo | undefined>(
       tokens.find((x) => x.symbol === defaultSymbol)
@@ -61,7 +61,10 @@ export const TokenInput = forwardRef(
           onChange={(evt) => {
             const value = evt.target.value.replace(/\D/g, "");
             setValue(value);
-            onChangeValue?.(+(value ?? 0));
+            onChangeData?.({
+              token: selectedToken,
+              value: +(value ?? 0),
+            });
           }}
         />
         <div className="flex flex-col text-end flex-shrink-0">
@@ -110,7 +113,10 @@ export const TokenInput = forwardRef(
             onClose={() => setIsSelectingToken(false)}
             onTokenSelect={(token) => {
               setSelectedToken(token);
-              onChangeToken?.(token);
+              onChangeData?.({
+                token: token,
+                value: +value,
+              });
             }}
             selectedToken={selectedToken}
             tokens={tokens}

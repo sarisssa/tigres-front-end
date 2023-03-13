@@ -2,22 +2,18 @@ import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 import { isWalletConnectedAtom, walletBalanceAtom } from "../state/wallet";
 import { ConnectWalletModal } from "./ConnectWalletModal";
-import { TokenInfo } from "./swap/types";
-import { ButtonStatus, ButtonTextMap } from "./types";
+import { ButtonStatus, ButtonTextMap, TokenInputData } from "./types";
 
 interface IConnectWalletButtonProps {
-  firstInputToken: TokenInfo | undefined;
-  firstInputValue: number;
-  secondInputToken: TokenInfo | undefined;
-  secondInputValue: number;
+  firstInputData: TokenInputData;
+  secondInputData: TokenInputData;
+  thirdInputData?: TokenInputData;
   buttonTextMap: Partial<ButtonTextMap>;
 }
 
 export const ConnectWalletButton = ({
-  firstInputToken,
-  firstInputValue,
-  secondInputToken,
-  secondInputValue,
+  firstInputData,
+  secondInputData,
   buttonTextMap,
 }: IConnectWalletButtonProps) => {
   const [isConnectWalletModalShown, setIsConnectWalletModalShown] =
@@ -37,30 +33,27 @@ export const ConnectWalletButton = ({
       return;
     }
 
-    if (!firstInputToken || !secondInputToken) {
+    // Destructure and rename
+    const { token: firstToken, value: firstValue } = firstInputData;
+    const { token: secondToken, value: secondValue } = secondInputData;
+
+    if (!firstToken || !secondToken) {
       setButtonStatus(ButtonStatus.noTokenSelected);
       return;
     }
 
-    if (!firstInputValue && !secondInputValue) {
+    if (!firstValue && !secondValue) {
       setButtonStatus(ButtonStatus.noValueSelected);
       return;
     }
 
-    if (!walletBalance || firstInputValue > walletBalance) {
+    if (!walletBalance || firstValue > walletBalance) {
       setButtonStatus(ButtonStatus.insufficientBalance);
       return;
     }
 
     setButtonStatus(ButtonStatus.swap);
-  }, [
-    firstInputToken,
-    secondInputToken,
-    firstInputValue,
-    secondInputValue,
-    walletBalance,
-    isWalletConnected,
-  ]);
+  }, [firstInputData, secondInputData, walletBalance, isWalletConnected]);
 
   return (
     <>

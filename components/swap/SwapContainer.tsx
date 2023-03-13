@@ -1,8 +1,8 @@
 import { useRef, useState } from "react";
 import { ConnectWalletButton } from "../ConnectWalletButton";
 import { ConnectWalletModal } from "../ConnectWalletModal";
-import { TokenInput, TokenInputRef, tokens } from "../TokenInput";
-import { ButtonStatus, ButtonTextMap } from "../types";
+import { TokenInput, TokenInputRef } from "../TokenInput";
+import { ButtonStatus, ButtonTextMap, TokenInputData } from "../types";
 import { TokenInfo } from "./types";
 
 const defaultSymbol = "ETH";
@@ -13,40 +13,41 @@ export const SwapContainer = () => {
 
   const firstInputRef = useRef<TokenInputRef>(null!);
   const secondInputRef = useRef<TokenInputRef>(null!);
-  const [firstInputValue, setFirstInputValue] = useState(0);
-  const [secondInputValue, setSecondInputValue] = useState(0);
-  const [firstInputToken, setFirstInputToken] = useState<TokenInfo | undefined>(
-    tokens.find((x) => x.symbol === defaultSymbol)
-  );
-  const [secondInputToken, setSecondInputToken] = useState<
-    TokenInfo | undefined
-  >(undefined);
 
-  const buttonTextMap: Omit<ButtonTextMap, "addLiquidity"> = {
+  const [firstInputData, setFirstInputData] = useState<TokenInputData>({
+    value: 0,
+    token: undefined,
+  });
+  const [secondInputData, setSecondInputData] = useState<TokenInputData>({
+    value: 0,
+    token: undefined,
+  });
+
+  const buttonTextMap: Omit<ButtonTextMap, "addLiquidity" | "invalidPair"> = {
     [ButtonStatus.noValueSelected]: "Enter an amount",
     [ButtonStatus.noWalletConnected]: "Connect Wallet",
     [ButtonStatus.noTokenSelected]: "Select a token",
     [ButtonStatus.noValueSelected]: "Enter an amount",
     [ButtonStatus.swap]: "Swap",
-    [ButtonStatus.insufficientBalance]: `Insufficient ${firstInputToken?.symbol} balance`,
+    [ButtonStatus.insufficientBalance]: `Insufficient ${firstInputData.token?.symbol} balance`,
   };
 
   function swapInputTokens() {
-    const temp = firstInputToken;
-    setFirstInputToken(secondInputToken);
-    firstInputRef.current.setSelectedToken(secondInputToken);
-    setSecondInputToken(temp);
-    secondInputRef.current.setSelectedToken(temp);
+    const temp = firstInputData;
+    setFirstInputData(secondInputData);
+    firstInputRef.current.setSelectedToken(secondInputData.token);
+    setSecondInputData(temp);
+    secondInputRef.current.setSelectedToken(temp.token);
   }
 
-  function swapIfSameAsSecondToken(token: TokenInfo) {
-    if (secondInputToken?.symbol === token.symbol) {
+  function swapIfSameAsSecondToken(token: TokenInfo | undefined) {
+    if (secondInputData.token?.symbol === token?.symbol) {
       swapInputTokens();
     }
   }
 
-  function swapIfSameAsFirstToken(token: TokenInfo) {
-    if (firstInputToken?.symbol === token.symbol) {
+  function swapIfSameAsFirstToken(token: TokenInfo | undefined) {
+    if (firstInputData.token?.symbol === token?.symbol) {
       swapInputTokens();
     }
   }
@@ -58,25 +59,21 @@ export const SwapContainer = () => {
         <TokenInput
           ref={firstInputRef}
           defaultSymbol={defaultSymbol}
-          onChangeToken={(token) => {
-            swapIfSameAsSecondToken(token);
-            setFirstInputToken(token);
+          onChangeData={(data) => {
+            swapIfSameAsSecondToken(data.token);
+            setFirstInputData(data);
           }}
-          onChangeValue={setFirstInputValue}
         />
         <TokenInput
           ref={secondInputRef}
-          onChangeToken={(token) => {
-            swapIfSameAsFirstToken(token);
-            setSecondInputToken(token);
+          onChangeData={(data) => {
+            swapIfSameAsFirstToken(data.token);
+            setSecondInputData(data);
           }}
-          onChangeValue={setSecondInputValue}
         />
         <ConnectWalletButton
-          firstInputToken={firstInputToken}
-          firstInputValue={firstInputValue}
-          secondInputToken={secondInputToken}
-          secondInputValue={secondInputValue}
+          firstInputData={firstInputData}
+          secondInputData={secondInputData}
           buttonTextMap={buttonTextMap}
         />
         {isConnectWalletModalShown && (

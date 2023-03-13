@@ -1,3 +1,5 @@
+import { TokenInfo } from "./swap/types";
+
 export enum ButtonStatus {
   noWalletConnected = "noWalletConnected",
   noTokenSelected = "noTokenSelected",
@@ -9,3 +11,8 @@ export enum ButtonStatus {
 }
 
 export interface ButtonTextMap extends Record<ButtonStatus, string> {}
+
+export interface TokenInputData {
+  token: TokenInfo | undefined;
+  value: number;
+}

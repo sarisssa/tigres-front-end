@@ -1,14 +1,34 @@
 import Link from "next/link";
+import { useRef, useState } from "react";
 import { ConnectWalletButton } from "../ConnectWalletButton";
 import { BackArrow, Plus } from "../icons";
 import TipContainer from "../TipContainer";
-import { TokenInput } from "../TokenInput";
-import { ButtonStatus, ButtonTextMap } from "../types";
+import { TokenInput, TokenInputRef } from "../TokenInput";
+import { ButtonStatus, ButtonTextMap, TokenInputData } from "../types";
 
 const addLiquidityTip =
   "When you add liquidity, you will receive pool tokens representing your position. These tokens automatically earn fees proportional to your share of the pool, and can be redeemed at any time.";
 
 export default function LiquidityContainer() {
+  const firstInputRef = useRef<TokenInputRef>(null!);
+  const secondInputRef = useRef<TokenInputRef>(null!);
+  const thirdInputRef = useRef<TokenInputRef>(null!);
+
+  const [firstInputData, setFirstInputData] = useState<TokenInputData>({
+    value: 0,
+    token: undefined,
+  });
+
+  const [secondInputData, setSecondInputData] = useState<TokenInputData>({
+    value: 0,
+    token: undefined,
+  });
+
+  const [thirdInputData, setThirdInputData] = useState<TokenInputData>({
+    value: 0,
+    token: undefined,
+  });
+
   const buttonTextMap: Omit<ButtonTextMap, "swap"> = {
     [ButtonStatus.noValueSelected]: "Enter an amount",
     [ButtonStatus.noWalletConnected]: "Connect Wallet",
@@ -16,8 +36,30 @@ export default function LiquidityContainer() {
     [ButtonStatus.noValueSelected]: "Enter an amount",
     [ButtonStatus.addLiquidity]: "Add Liquidity",
     [ButtonStatus.invalidPair]: "Invalid Pair",
-    [ButtonStatus.insufficientBalance]: `Insufficient ${firstInputToken?.symbol} balance`,
+    [ButtonStatus.insufficientBalance]: `Insufficient ${firstInputData.token?.symbol} balance`,
   };
+
+  // function swapIfFirstAlreadySelected(token: TokenInfo) {
+  //   if (secondInputToken?.symbol === token.symbol) {
+  //     const temp = firstInputToken;
+  //     setFirstInputToken(secondInputToken);
+  //     firstInputRef.current.setSelectedToken(secondInputToken);
+  //     setSecondInputToken(temp);
+  //     secondInputRef.current.setSelectedToken(temp);
+  //   }
+  // }
+
+  // function swapIfSecondAlreadySelected(token: TokenInfo) {
+  //   if (firstInputToken?.symbol === token.symbol) {
+  //     swapInputTokens();
+  //   }
+  // }
+
+  // function swapIfThirdAlreadySelected(token: TokenInfo) {
+  //   if (firstInputToken?.symbol === token.symbol) {
+  //     swapInputTokens();
+  //   }
+  // }
 
   return (
     <div className="flex justify-center p-2">
@@ -35,21 +77,36 @@ export default function LiquidityContainer() {
         </div>
         <div className="flex flex-col gap-5 text-tigres-info dark:text-button-close-icon">
           <TipContainer tip={addLiquidityTip} />
-          <TokenInput />
+          <TokenInput
+            ref={firstInputRef}
+            onChangeData={(data) => {
+              setFirstInputData(data);
+              // swapIfAlreadySelected(token, firstInputRef);
+            }}
+          />
           <div className="self-center">
             <Plus />
           </div>
-          <TokenInput />
+          <TokenInput
+            ref={secondInputRef}
+            onChangeData={(data) => {
+              setSecondInputData(data);
+            }}
+          />
           <div className="self-center">
             <Plus />
           </div>
-          <TokenInput />
+          <TokenInput
+            ref={thirdInputRef}
+            onChangeData={(data) => {
+              setThirdInputData(data);
+            }}
+          />
         </div>
         <ConnectWalletButton
-          firstInputToken={firstInputToken}
-          firstInputValue={firstInputValue}
-          secondInputToken={secondInputToken}
-          secondInputValue={secondInputValue}
+          firstInputData={firstInputData}
+          secondInputData={secondInputData}
+          thirdInputData={thirdInputData}
           buttonTextMap={buttonTextMap}
         />
       </div>
