@@ -6,7 +6,7 @@ Link to smart contract repo: https://github.com/sarisssa/tigres-contracts
 
 ## Demo
 
-https://tigres-sarisssa.vercel.app/
+https://tigres.vercel.app/
 
 ## Setup
 
